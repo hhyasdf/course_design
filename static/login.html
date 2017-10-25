@@ -33,7 +33,8 @@
                 <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="submit_form()">Sign in</button>
             </div>
         </div>
-
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 
@@ -48,7 +49,7 @@
         };
         if(params.Username != '' && params.Password != '') {
           var temp = document.createElement("form");
-          temp.action = "/";
+          temp.action = "/calculator.html";
           temp.method = "post";
           temp.content = "application/json";
           temp.style.display = "none";
