@@ -8,37 +8,43 @@ from flask import request
 from datetime import timedelta
 
 from flask_login import (LoginManager, login_required, login_user,
-                             logout_user, UserMixin)
+                             logout_user, UserMixin, fresh_login_required)
 
-# import MySQLdb
+import pymysql
 
-# db = MySQLdb.connect(host = 'localhost', 
-#                     port = 3306, 
-#                     db = 'course_design', 
-#                     user = 'root', passwd = 'hhjcyhhy'
-#                     )
-
-# class User:
-
-#     def __init__(self, username, password):
-#         self.username = username
-#         self.password = password
-#         self.work_condition = 1;
-
-#     def check_password(self):
-#         cursor = db.cursor()
-#         sql = "select password from users where username = '%s'" % (self.username)
-#         cursor.execute(sql)
-#         real_passwd = (cursor.fetchone())[0]
-#         if(self.password == real_passwd):
-#             return True
-#         else:
-#             return False
+db = pymysql.connect(host = 'localhost', 
+                    port = 3306, 
+                    db = 'course_design', 
+                    user = 'root', passwd = 'hhjcyhhy'
+                    )
 
 
 class User(UserMixin):
+
+    def __init__(self, username = '', password = ''):
+        UserMixin.__init__(self)
+        self.username = username
+        self.password = password
+        self.work_condition = 1;
+
+    def check_password(self):
+        cursor = db.cursor()
+        sql = "select password from users where username = '%s'" % (self.username)
+        cursor.execute(sql)
+        tmp_psswd = cursor.fetchone()
+        if(tmp_psswd != None):
+            real_passwd = tmp_psswd[0]
+        else:
+            real_passwd = None
+        print(real_passwd)
+        print(sql)
+        if(self.password == real_passwd):
+            return True
+        else:
+            return False
+
     def is_authenticated(self):
-        return True
+        return False
  
     def is_actice(self):
         return False
@@ -61,14 +67,18 @@ login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
 login_manager.remember_cookie_duration = timedelta(days=1)
+login_manager.refresh_view = "auth.login"
+
 
 @login_manager.user_loader
 def load_user(user_id):
     user = User()
     return user
 
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    logout_user()
     return app.send_static_file('login.html')
 
 
@@ -84,15 +94,19 @@ def index(name=None):
     #     print("get a GET")
     return app.send_static_file('login.html')
 
+
 @app.route('/login.html', methods=['POST'])
 def login():
-    user = User()
+    user = User(request.form["Username"], request.form["Password"])
     login_user(user)
-    print("login")
-    print(request.form["Username"])
-    print(request.form["Password"])
+    if(user.check_password()):
+    # print("login")
+    # print(request.form["Username"])
+    # print(request.form["Password"])
+        return app.send_static_file('calculator_params.html')
+    else:
+        return "username is not exist or wrong password"
 
-    return app.send_static_file('calculator_params.html')
 
 @auth.route('/logout', methods=['GET', 'POST'])
 @login_required
@@ -100,20 +114,28 @@ def logout():
     logout_user()
     return "logout page"
 
+
 @app.route('/static/calculator_params.html')
 @login_required
+@fresh_login_required
 def params():
     return app.send_static_file('calculator_params.html')
 
+
 @app.route('/static/calculator_device.html')
 @login_required
+@fresh_login_required
 def device():
     return app.send_static_file('calculator_device.html')
 
+
 @app.route('/static/calculator_results.html')
 @login_required
+@fresh_login_required
 def results():
     return app.send_static_file('calculator_results.html')
+
+
 
 if __name__ == '__main__':
     app.register_blueprint(auth, url_prefix='/auth')
