@@ -21,50 +21,21 @@
     <![endif]-->
   </head>
   <body>
-        <div class="container">
+        <form class="container" action="/calculator_params.html" method="post" enctype="application/json">
             <div class="text-center signin_img"><img class="img-circle" src="/static/img/login_logo.jpeg"></div>
             <div class="form-signin">
                 <h4 class="form-signin-heading text-center"></h2>
                 <br/>
                 <label for="inputEmail" class="sr-only">Username</label>
-                <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+                <input type="text" id="inputUsername" class="form-control" placeholder="Username" name="Username" required autofocus>
                 <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="submit_form()">Sign in</button>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="Password" required>
+                <button id="submit_button" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
             </div>
-        </div>
+        </form>
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-
-    <script>
-      function submit_form() 
-      {
-        // 提交用户名和密码
-
-        var params = {
-          "Username": document.getElementById("inputUsername").value,
-          "Password": document.getElementById("inputPassword").value
-        };
-        if(params.Username != '' && params.Password != '') {
-          var temp = document.createElement("form");
-          temp.action = "/calculator.html";
-          temp.method = "post";
-          temp.content = "application/json";
-          temp.style.display = "none";
-
-          for (var x in params) {
-              var opt = document.createElement("textarea");
-              opt.name = x;
-              opt.value = params[x];
-              temp.appendChild(opt);
-          }
-
-          document.body.appendChild(temp);
-          temp.submit();
-        }
-      }
-    </script>
   </body>
 </html>
