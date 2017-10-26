@@ -1,11 +1,76 @@
 #!/usr/bin/python
 
-from flask import Flask
+#coding:utf-8
+
+from flask import Flask, Blueprint
 from flask import render_template
 from flask import request
+from datetime import timedelta
+
+from flask_login import (LoginManager, login_required, login_user,
+                             logout_user, UserMixin)
+
+# import MySQLdb
+
+# db = MySQLdb.connect(host = 'localhost', 
+#                     port = 3306, 
+#                     db = 'course_design', 
+#                     user = 'root', passwd = 'hhjcyhhy'
+#                     )
+
+# class User:
+
+#     def __init__(self, username, password):
+#         self.username = username
+#         self.password = password
+#         self.work_condition = 1;
+
+#     def check_password(self):
+#         cursor = db.cursor()
+#         sql = "select password from users where username = '%s'" % (self.username)
+#         cursor.execute(sql)
+#         real_passwd = (cursor.fetchone())[0]
+#         if(self.password == real_passwd):
+#             return True
+#         else:
+#             return False
+
+
+class User(UserMixin):
+    def is_authenticated(self):
+        return True
+ 
+    def is_actice(self):
+        return False
+ 
+    def is_anonymous(self):
+        return False
+ 
+    def get_id(self):
+        return "1"
+
 
 app = Flask(__name__)
 app.debug = True
+app.secret_key = 's3cr3t'
+
+auth = Blueprint('auth', __name__)
+
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
+login_manager.remember_cookie_duration = timedelta(days=1)
+
+@login_manager.user_loader
+def load_user(user_id):
+    user = User()
+    return user
+
+@auth.route('/login', methods=['GET', 'POST'])
+def login():
+    return app.send_static_file('login.html')
+
 
 @app.route('/')
 def index(name=None):
@@ -19,25 +84,40 @@ def index(name=None):
     #     print("get a GET")
     return app.send_static_file('login.html')
 
-@app.route('/calculator_params.html', methods=['POST'])
+@app.route('/login.html', methods=['POST'])
 def login():
+    user = User()
+    login_user(user)
     print("login")
     print(request.form["Username"])
     print(request.form["Password"])
 
     return app.send_static_file('calculator_params.html')
 
-@app.route('/calculator_device.html')
+@auth.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    return "logout page"
+
+@app.route('/static/calculator_params.html')
+@login_required
+def params():
+    return app.send_static_file('calculator_params.html')
+
+@app.route('/static/calculator_device.html')
+@login_required
 def device():
     return app.send_static_file('calculator_device.html')
 
-@app.route('/calculator_results.html')
+@app.route('/static/calculator_results.html')
+@login_required
 def results():
-    return app.send_static_file('alculator_results.html')
+    return app.send_static_file('calculator_results.html')
 
 if __name__ == '__main__':
+    app.register_blueprint(auth, url_prefix='/auth')
     app.run(host='0.0.0.0')
-
 
 
 
