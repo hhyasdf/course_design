@@ -5,6 +5,7 @@
 from flask import Flask, Blueprint
 from flask import render_template
 from flask import request
+from flask import send_file
 from datetime import timedelta
 
 from flask_login import (LoginManager, login_required, login_user,
@@ -36,18 +37,18 @@ class User(UserMixin):
             real_passwd = tmp_psswd[0]
         else:
             real_passwd = None
-        print(real_passwd)
-        print(sql)
+        # print(real_passwd)
+        # print(sql)
         if(self.password == real_passwd):
             return True
         else:
             return False
 
     def is_authenticated(self):
-        return False
+        return True
  
     def is_actice(self):
-        return False
+        return True
  
     def is_anonymous(self):
         return False
@@ -65,6 +66,7 @@ auth = Blueprint('auth', __name__)
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'auth.login'
+login_manager.logout_view = 'auth.logout'
 login_manager.init_app(app)
 login_manager.remember_cookie_duration = timedelta(days=1)
 login_manager.refresh_view = "auth.login"
@@ -92,6 +94,7 @@ def index(name=None):
     #     return "hello"
     # if(request.method == "GET"):
     #     print("get a GET")
+    print("index")
     return app.send_static_file('login.html')
 
 
@@ -103,7 +106,7 @@ def login():
     # print("login")
     # print(request.form["Username"])
     # print(request.form["Password"])
-        return app.send_static_file('calculator_params.html')
+        return app.send_static_file('main.html')
     else:
         return "username is not exist or wrong password"
 
@@ -115,25 +118,32 @@ def logout():
     return "logout page"
 
 
-@app.route('/static/calculator_params.html')
+@app.route('/static/main.html')
 @login_required
 @fresh_login_required
 def params():
-    return app.send_static_file('calculator_params.html')
+    return app.send_static_file('main.html')
 
 
-@app.route('/static/calculator_device.html')
+@app.route('/init_data.xlsx')
 @login_required
 @fresh_login_required
-def device():
-    return app.send_static_file('calculator_device.html')
+def send():
+    return send_file("doc/init_data.xlsx")
+
+# @app.route('/static/calculator_device.html')
+# @login_required
+# @fresh_login_required
+# def device():
+#     print("device")
+#     return app.send_static_file('calculator_device.html')
 
 
-@app.route('/static/calculator_results.html')
-@login_required
-@fresh_login_required
-def results():
-    return app.send_static_file('calculator_results.html')
+# @app.route('/static/calculator_results.html')
+# @login_required
+# @fresh_login_required
+# def results():
+#     return app.send_static_file('calculator_results.html')
 
 
 
