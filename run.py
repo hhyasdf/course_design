@@ -7,16 +7,17 @@ from flask import render_template
 from flask import request
 from flask import send_file
 from datetime import timedelta
+import pymysql
 
 from flask_login import (LoginManager, login_required, login_user,
                              logout_user, UserMixin, fresh_login_required)
 
-import pymysql
-
 db = pymysql.connect(host = 'localhost', 
                     port = 3306, 
                     db = 'course_design', 
-                    user = 'root', passwd = 'hhjcyhhy'
+                    user = 'root', passwd = 'hhjcyhhy',
+                    use_unicode=True, 
+                    charset="utf8"
                     )
 
 
@@ -33,6 +34,7 @@ class User(UserMixin):
         sql = "select password from users where username = '%s'" % (self.username)
         cursor.execute(sql)
         tmp_psswd = cursor.fetchone()
+        cursor.close()
         if(tmp_psswd != None):
             real_passwd = tmp_psswd[0]
         else:
@@ -98,15 +100,20 @@ def index(name=None):
     return app.send_static_file('login.html')
 
 
-@app.route('/login.html', methods=['POST'])
+@app.route('/main.html', methods=['POST'])
 def login():
     user = User(request.form["Username"], request.form["Password"])
     login_user(user)
-    if(user.check_password()):
     # print("login")
     # print(request.form["Username"])
     # print(request.form["Password"])
-        return app.send_static_file('main.html')
+    if(user.check_password()):
+
+        cursor = db.cursor()
+        cursor.execute("select * from device;")
+        device_list = cursor.fetchall()
+        # print(device_list)
+        return render_template('main.html', device_list = device_list)
     else:
         return "username is not exist or wrong password"
 
@@ -118,11 +125,39 @@ def logout():
     return "logout page"
 
 
-@app.route('/static/main.html')
+# @app.route('/static/main.html')
+# @login_required
+# @fresh_login_required
+# def mainpage():
+#     cursor = db.cursor()
+#     cursor.execute("select * from device;")
+#     device_list = cursor.fetchall()
+#     # print(device_list)
+#     return render_template('main.html', device_list = device_list)
+
+
+@app.route('/main.html')
 @login_required
 @fresh_login_required
-def params():
-    return app.send_static_file('main.html')
+def mainpage_d():
+    cursor = db.cursor()
+    cursor.execute("select * from device;")
+    device_list = cursor.fetchall()
+    # print(device_list)
+    return render_template('main.html', device_list = device_list)
+
+
+@app.route('/static/results.html', methods = ['POST'])
+@login_required
+@fresh_login_required
+def results():
+    
+    
+
+
+
+
+    return render_template('results.html')
 
 
 @app.route('/init_data.xlsx')

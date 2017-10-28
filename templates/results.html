@@ -32,17 +32,17 @@
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
               <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"asdfasdf></span>
+              <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <div class="navbar-brand" id="username">这里写用户的名字</div>
+            <div class="navbar-brand" id="username" style="font-style:italic"><strong>{{ username }}</strong></div>
           </div>
           <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-              <li class="active" id="params_page"><a href="#">计算参数</a></li>
-              <li id="device_page"><a href="#">设备选择</a></li>
-              <li id="results_page"><a href="#">计算结果</a></li>
+              <li id="params_page"><a href="/main.html">计算参数</a></li>
+              <li id="device_page"><a href="/main.html">设备选择</a></li>
+              <li class="active" id="results_page"><a href="#">计算结果</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择工况<span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -60,93 +60,6 @@
           </div><!--/.nav-collapse -->
         </div>
       </nav>
-
-
-
-
-      <!-- Begin page content -->
-      <div class="container" id="params_container">
-        <div class="page-header">
-          <h4>输入发动机信息：</h4>
-        </div>
-        
-        <div id="engine-row" class="row">
-        <span id="engine1" style="padding: 10px 10px 10px; margin: 0 15px;" class = "col-sm-3">
-            <div class="bs-example bs-example-form" role="form">
-                <div class="input-group">
-                    <span class="input-group-addon">数量</span>
-                    <input type="text" class="form-control" placeholder="默认数量为1">
-                </div>
-                <br>
-                <div class="input-group">
-                    <span class="input-group-addon">功率</span>
-                    <input type="text" class="form-control" placeholder="默认功率为90kW">
-                    <span class="input-group-addon">kW</span>
-                </div>
-                <br>
-            </div>
-        </span>
-
-        <!-- <span style="padding: 10px 10px 10px; margin: 0 15px;" class = "col-sm-3">
-            <form class="bs-example bs-example-form" role="form">
-                <div class="input-group">
-                    <span class="input-group-addon">数量</span>
-                    <input type="text" class="form-control" placeholder="默认数量为1">
-                </div>
-                <br>
-                <div class="input-group">
-                    <span class="input-group-addon">功率</span>
-                    <input type="text" class="form-control">
-                    <span class="input-group-addon">kW</span>
-                </div>
-                <br>
-            </form>
-        </span> -->
-        </div>
-
-        <button type="button" id="add_engine" title="增加一个发动机" class="btn btn-default btn-xs" style="margin: 10px;">
-            <span class="glyphicon glyphicon-plus" style="color: rgb(5, 5, 5);"></span>
-        </button>
-
-        <button type="button" id="minus_engine" title="减少一个发动机" class="btn btn-default btn-xs" style="margin: 10px;">
-            <span class="glyphicon glyphicon-minus" style="color: rgb(5, 5, 5);"></span>
-        </button>
-        
-        <div class="page-header">
-            <h4>输入同时系数：</h4>
-        </div>
-
-        <div class = "row">
-            <span class = "col-sm-3" style="padding: 10px 10px 10px; margin: 0 15px;">
-                <div class="input-group">
-                    <span class="input-group-addon">K0,I</span>
-                    <input type="text" class="form-control" placeholder="默认系数为0.9">
-                </div>
-            </span>
-            <span class = "col-sm-3" style="padding: 10px 10px 10px; margin: 0 15px;">
-                <div class="input-group">
-                    <span class="input-group-addon">K0,II</span>
-                    <input type="text" class="form-control" placeholder="默认系数为0.6">
-                </div>
-            </span>
-            
-        </div>
-
-        <!-- <div class="row text-center" style="margin-top: 60px">
-          <div class="btn-success btn-lg col-sm-1 col-sm-offset-10"><a href="#" style="color:#FFFFFF; text-decoration: blink">apply</a></div>
-        </div> -->
-
-      </div>
-
-      
-      <div class="container" id="device_container" style="display: none">
-        <div class="page-header">
-          <h1>Sticky footer with fixed navbar</h1>
-        </div>
-        <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>body &gt; .container</code>.</p>
-        <p>Back to <a href="../sticky-footer">the default sticky footer</a> minus the navbar.</p>
-      </div>
-
 
       <div class="container" id="results_container" style="display: none">
         <div class="page-header">
@@ -168,6 +81,6 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 
-    <script src="/static/js/main.js"></script>
+    <script src="/static/js/results.js"></script>
   </body>
 </html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>船舶电力负荷计算（三类负荷法）</title>
+    
+        <!-- Bootstrap -->
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/static/css/calculator.css" rel="stylesheet">
+    <link rel="icon" href="/static/img/login_logo.jpeg">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>      
+          <!-- Fixed navbar -->
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <!-- <div class="navbar-brand" id="username" style="font-style:italic"><strong>{{ username }}</strong></div> -->
+          </div>
+          <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li class="active" id="params_page"><a href="#">计算参数</a></li>
+              <li id="device_page"><a href="#">设备选择</a></li>
+              <li id="results_page"><a>计算结果</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">选择工况<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li class="text-center"><a href="#" id="work_condition1">航行状态&nbsp;&nbsp;<span class="glyphicon glyphicon-ok" id="work_condition1_choose" style="font-size: 10px;"></span></a></li>
+                  <li class="text-center"><a href="#" id="work_condition2">进出港状态&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-ok" id="work_condition2_choose" style="font-size: 10px; display: none"></span></a></li>
+                  <li class="text-center"><a href="#" id="work_condition3">作业状态&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-ok" id="work_condition3_choose" style="font-size: 10px; display: none"></span></a></li>
+                  <li class="text-center"><a href="#" id="work_condition4">停泊状态&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-ok" id="work_condition4_choose" style="font-size: 10px; display: none"></span></a></li>
+                  <!-- <li role="separator" class="divider"></li>
+                  <li class="dropdown-header">Nav header</li>
+                  <li><a href="#">Separated link</a></li>
+                  <li><a href="#">One more separated link</a></li> -->
+                </ul>
+              </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </nav>
+
+
+
+
+      <!-- Begin page content -->
+      <div class="container" id="params_container">
+        <div class="page-header">
+          <h4>输入发动机信息：</h4>
+        </div>
+        
+        <div id="engine-row" class="row">
+        <span id="engine1" style="padding: 10px 10px 10px; margin: 0 15px;" class = "col-sm-3">
+            <div class="bs-example bs-example-form" role="form">
+                <div class="input-group">
+                    <span class="input-group-addon">数量</span>
+                    <input type="text" class="form-control" placeholder="默认数量为1">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">功率</span>
+                    <input type="text" class="form-control" placeholder="默认功率为90kW">
+                    <span class="input-group-addon">kW</span>
+                </div>
+                <br>
+            </div>
+        </span>
+
+        <!-- <span style="padding: 10px 10px 10px; margin: 0 15px;" class = "col-sm-3">
+            <form class="bs-example bs-example-form" role="form">
+                <div class="input-group">
+                    <span class="input-group-addon">数量</span>
+                    <input type="text" class="form-control" placeholder="默认数量为1">
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">功率</span>
+                    <input type="text" class="form-control">
+                    <span class="input-group-addon">kW</span>
+                </div>
+                <br>
+            </form>
+        </span> -->
+        </div>
+
+        <button type="button" id="add_engine" title="增加一个发动机" class="btn btn-default btn-xs" style="margin: 10px;">
+            <span class="glyphicon glyphicon-plus" style="color: rgb(5, 5, 5);"></span>
+        </button>
+
+        <button type="button" id="minus_engine" title="减少一个发动机" class="btn btn-default btn-xs" style="margin: 10px;">
+            <span class="glyphicon glyphicon-minus" style="color: rgb(5, 5, 5);"></span>
+        </button>
+        
+        <div class="page-header">
+            <h4>输入同时系数：</h4>
+        </div>
+
+        <div class = "row">
+            <span class = "col-sm-3" style="padding: 10px 10px 10px; margin: 0 15px;">
+                <div class="input-group">
+                    <span class="input-group-addon">K0,I</span>
+                    <input type="text" class="form-control" placeholder="默认系数为0.9">
+                </div>
+            </span>
+            <span class = "col-sm-3" style="padding: 10px 10px 10px; margin: 0 15px;">
+                <div class="input-group">
+                    <span class="input-group-addon">K0,II</span>
+                    <input type="text" class="form-control" placeholder="默认系数为0.6">
+                </div>
+            </span>
+            
+        </div>
+
+        <!-- <div class="row text-center" style="margin-top: 60px">
+          <div class="btn-success btn-lg col-sm-1 col-sm-offset-10"><a href="#" style="color:#FFFFFF; text-decoration: blink">apply</a></div>
+        </div> -->
+
+      </div>
+
+      
+      <div class="container" id="device_container" style="display: none">
+        <div class="page-header">
+          <h4>请选择用电设备:</h4>
+        </div>
+        
+        <div id="device_list" class="row">
+        
+        {% for device in device_list %}
+
+          <span>
+            <button style="margin-top: 15px;" type="button" class="btn btn-default btn-lg" id="{{device[0]}}_cal_button" data-toggle="modal" data-target="#{{device[0]}}_modal">
+                {{device[0]}}
+            </button>
+          </span>
+
+          <div class="modal fade" id="{{device[0]}}_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">设备信息</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-addon">用电设备名称</span>
+                        <input type="text" class="form-control" value="{{device[0]}}" disabled>
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">数量</span>
+                        <input type="text" class="form-control" value="{{device[1]}}">
+                        <span class="input-group-addon">台</span>
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">最大机械轴功率</span>
+                        <input type="text" class="form-control" value="{{device[2]}}">
+                        <span class="input-group-addon">kW</span>
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">电动机额定功率</span>
+                        <input type="text" class="form-control" value="{{device[3]}}">
+                        <span class="input-group-addon">kW</span>
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">电动机额定效率</span>
+                        <input type="text" class="form-control" value="{{device[4]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">电动机利用系数</span>
+                        <input type="text" class="form-control" value="{{device[5]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">航行状态机械负荷系数</span>
+                        <input type="text" class="form-control" value="{{device[6]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">航行状态电动机负荷系数</span>
+                        <input type="text" class="form-control" value="{{device[7]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">航行状态同时使用系数</span>
+                        <input type="text" class="form-control" value="{{device[8]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">航行状态负荷类别</span>
+                        <input type="text" class="form-control" value="{{device[9]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">进出港状态机械负荷系数</span>
+                        <input type="text" class="form-control" value="{{device[10]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">进出港状态电动机负荷系数</span>
+                        <input type="text" class="form-control" value="{{device[11]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">进出港状态同时使用系数</span>
+                        <input type="text" class="form-control" value="{{device[12]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">进出港状态负荷类别</span>
+                        <input type="text" class="form-control" value="{{device[13]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">作业状态机械负荷系数</span>
+                        <input type="text" class="form-control" value="{{device[14]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">作业状态电动机负荷系数</span>
+                        <input type="text" class="form-control" value="{{device[15]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">作业状态同时使用系数</span>
+                        <input type="text" class="form-control" value="{{device[16]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">作业状态负荷类别</span>
+                        <input type="text" class="form-control" value="{{device[17]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">停泊状态机械负荷系数</span>
+                        <input type="text" class="form-control" value="{{device[18]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">停泊状态电动机负荷系数</span>
+                        <input type="text" class="form-control" value="{{device[19]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">停泊状态同时使用系数</span>
+                        <input type="text" class="form-control" value="{{device[20]}}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">停泊状态负荷类别</span>
+                        <input type="text" class="form-control" value="{{device[21]}}">
+                    </div>
+                    <br>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-success device_button add_cal" data-dismiss="modal" id="{{device[0]}}_cal">加入计算</button>
+                  <button type="button" class="btn btn-primary">保存设备</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        {% endfor %}
+
+        </div>
+        <br><br><br><br>
+        <!-- <div class="btn-primary btn-lg"><a href="#" style="color:#FFFFFF; text-decoration: blink">开始计算</a></div> -->
+        <div>
+            <button type="button" class="btn btn-primary">新建设备</button>
+            <button type="button" class="btn btn-info col-sm-offset-10" style="margin-left: 15px;"><strong>开始计算</strong></button>
+        </div>
+
+      </div>
+
+
+      <div class="container" id="results_container" style="display: none">
+        <div class="page-header">
+          <h1>Sticky footer with fixed navbar</h1>
+        </div>
+        <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>body &gt; .container</code>.</p>
+        <p>Back to <a href="../sticky-footer">the default sticky footer</a> minus the navbar.</p>
+      </div>
+
+      <footer class="footer">
+        <div class="container">
+          <p class="text-muted">船舶电力负荷计算（三类负荷法）</p>
+        </div>
+      </footer>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="/static/js/main.js"></script>
+  </body>
+</html>
