@@ -112,6 +112,7 @@ def login():
         cursor = db.cursor()
         cursor.execute("select * from device;")
         device_list = cursor.fetchall()
+        cursor.close()
         # print(device_list)
         return render_template('main.html', device_list = device_list)
     else:
@@ -144,6 +145,7 @@ def mainpage_d():
     cursor.execute("select * from device;")
     device_list = cursor.fetchall()
     # print(device_list)
+    cursor.close()
     return render_template('main.html', device_list = device_list)
 
 
@@ -151,13 +153,82 @@ def mainpage_d():
 @login_required
 @fresh_login_required
 def results():
-    
-    
-
-
-
 
     return render_template('results.html')
+
+
+@app.route('/change_db', methods=['POST'])
+@login_required
+@fresh_login_required
+def change_db():
+    cursor = db.cursor()
+    if(request.form["action"] == "delete"):
+        sql = "delete from device where 用电设备名称 = '%s'" % (request.form["device_name"])
+        cursor.execute(sql)
+        db.commit()
+        cursor.close()
+    elif(request.form["action"] == "save"):
+        # print(request.form)
+        sql = '''replace into device (
+            用电设备名称,
+            数量, 
+            最大机械轴功率,
+            电动机额定功率,
+            电动机额定效率,
+
+            电动机利用系数,
+            航行状态机械负荷系数,
+            航行状态电动机负荷系数,
+            航行状态同时使用系数,
+
+            航行状态负荷类别,
+            进出港状态机械负荷系数,
+            进出港状态电动机负荷系数,
+            进出港状态同时使用系数,
+
+            进出港状态负荷类别,
+            作业状态机械负荷系数,
+            作业状态电动机负荷系数,
+            作业状态同时使用系数,
+
+            作业状态负荷类别,
+            停泊状态机械负荷系数,
+            停泊状态电动机负荷系数,
+            停泊状态同时使用系数,
+
+            停泊状态负荷类别)
+
+            values("%s",%d,%f,%f,%f,%f,%f,%f,%f,"%s",%f,
+            %f,%f,"%s",%f,%f,%f,"%s",%f,%f,%f,"%s");''' % (
+                request.form["device_name"],
+                int(request.form["param1"]),
+                float(request.form["param2"]),
+                float(request.form["param3"]),
+                float(request.form["param4"]),
+                float(request.form["param5"]),
+                float(request.form["param6"]),
+                float(request.form["param7"]),
+                float(request.form["param8"]),
+                request.form["param9"],
+                float(request.form["param10"]),
+                float(request.form["param11"]),
+                float(request.form["param12"]),
+                request.form["param13"],
+                float(request.form["param14"]),
+                float(request.form["param15"]),
+                float(request.form["param16"]),
+                request.form["param17"],
+                float(request.form["param18"]),
+                float(request.form["param19"]),
+                float(request.form["param20"]),
+                request.form["param21"]
+            )
+        cursor.execute(sql)
+        db.commit()
+        cursor.close()
+
+    return 'a string'
+    
 
 
 @app.route('/init_data.xlsx')

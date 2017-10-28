@@ -20,7 +20,6 @@ if __name__ == '__main__':
     ncols = data_sheet.ncols
 
     control = db.cursor();
-    load = db.cursor();
 
         # 电动机额定所需功率 float(20,3) DEFAULT NULL,
         # 所需总功率 float(20,3) DEFAULT NULL,
@@ -31,32 +30,33 @@ if __name__ == '__main__':
 
     create_table_sql = '''create table if not exists device (
         用电设备名称 varchar(40) NOT NULL,
-        数量 int UNSIGNED,
-        最大机械轴功率 float(20,3) DEFAULT NULL,
-        电动机额定功率 float(20,3) DEFAULT NULL,
-        电动机额定效率 float(3,2) DEFAULT NULL,
+        数量 int UNSIGNED NOT NULL,
+        最大机械轴功率 float(20,3) NOT NULL,
+        电动机额定功率 float(20,3) NOT NULL,
+        电动机额定效率 float(3,2) NOT NULL,
 
-        电动机利用系数 float(3,2) DEFAULT NULL,
-        航行状态机械负荷系数 float(3,2) DEFAULT NULL,
-        航行状态电动机负荷系数 float(3,2) DEFAULT NULL,
-        航行状态同时使用系数 float(3,2) DEFAULT NULL,
+        电动机利用系数 float(3,2) NOT NULL,
+        航行状态机械负荷系数 float(3,2) NOT NULL,
+        航行状态电动机负荷系数 float(3,2) NOT NULL,
+        航行状态同时使用系数 float(3,2) NOT NULL,
 
-        航行状态负荷类别 text DEFAULT NULL,
-        进出港状态机械负荷系数 float(3,2) DEFAULT NULL,
-        进出港状态电动机负荷系数 float(3,2) DEFAULT NULL,
-        进出港状态同时使用系数 float(3,2) DEFAULT NULL,
+        航行状态负荷类别 text NOT NULL,
+        进出港状态机械负荷系数 float(3,2) NOT NULL,
+        进出港状态电动机负荷系数 float(3,2) NOT NULL,
+        进出港状态同时使用系数 float(3,2) NOT NULL,
 
-        进出港状态负荷类别 text DEFAULT NULL,
-        作业状态机械负荷系数 float(3,2) DEFAULT NULL,
-        作业状态电动机负荷系数 float(3,2) DEFAULT NULL,
-        作业状态同时使用系数 float(3,2) DEFAULT NULL,
+        进出港状态负荷类别 text NOT NULL,
+        作业状态机械负荷系数 float(3,2) NOT NULL,
+        作业状态电动机负荷系数 float(3,2) NOT NULL,
+        作业状态同时使用系数 float(3,2) NOT NULL,
 
-        作业状态负荷类别 text DEFAULT NULL,
-        停泊状态机械负荷系数 float(3,2) DEFAULT NULL,
-        停泊状态电动机负荷系数 float(3,2) DEFAULT NULL,
-        停泊状态同时使用系数 float(3,2) DEFAULT NULL,
+        作业状态负荷类别 text NOT NULL,
+        停泊状态机械负荷系数 float(3,2) NOT NULL,
+        停泊状态电动机负荷系数 float(3,2) NOT NULL,
+        停泊状态同时使用系数 float(3,2) NOT NULL,
 
-        停泊状态负荷类别 text DEFAULT NULL
+        停泊状态负荷类别 text NOT NULL,
+        UNIQUE (用电设备名称)
     ) character set = utf8;'''
 
     control.execute(create_table_sql);

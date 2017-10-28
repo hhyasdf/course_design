@@ -148,13 +148,13 @@
         
         {% for device in device_list %}
 
-          <span>
-            <button style="margin-top: 15px;" type="button" class="btn btn-default btn-lg" id="{{device[0]}}_cal_button" data-toggle="modal" data-target="#{{device[0]}}_modal">
+          <span id="{{device[0]}}_{{ loop.index0 }}_delete_button">
+            <button style="margin-top: 15px;" type="button" class="btn btn-default btn-lg" id="{{device[0]}}_{{ loop.index0 }}_cal_button" data-toggle="modal" data-target="#{{device[0]}}_modal_{{ loop.index0 }}">
                 {{device[0]}}
             </button>
           </span>
 
-          <div class="modal fade" id="{{device[0]}}_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal fade" id="{{device[0]}}_modal_{{ loop.index0 }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -164,121 +164,122 @@
                 <div class="modal-body">
                     <div class="input-group">
                         <span class="input-group-addon">用电设备名称</span>
-                        <input type="text" class="form-control" value="{{device[0]}}" disabled>
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_用电设备名称" class="form-control" value="{{device[0]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">数量</span>
-                        <input type="text" class="form-control" value="{{device[1]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_数量" class="form-control" value="{{device[1]}}">
                         <span class="input-group-addon">台</span>
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">最大机械轴功率</span>
-                        <input type="text" class="form-control" value="{{device[2]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_最大机械轴功率" class="form-control" value="{{device[2]}}">
                         <span class="input-group-addon">kW</span>
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">电动机额定功率</span>
-                        <input type="text" class="form-control" value="{{device[3]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_电动机额定功率" class="form-control" value="{{device[3]}}">
                         <span class="input-group-addon">kW</span>
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">电动机额定效率</span>
-                        <input type="text" class="form-control" value="{{device[4]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_电动机额定效率" class="form-control" value="{{device[4]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">电动机利用系数</span>
-                        <input type="text" class="form-control" value="{{device[5]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_电动机利用系数" class="form-control" value="{{device[5]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">航行状态机械负荷系数</span>
-                        <input type="text" class="form-control" value="{{device[6]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_航行状态机械负荷系数" class="form-control" value="{{device[6]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">航行状态电动机负荷系数</span>
-                        <input type="text" class="form-control" value="{{device[7]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_航行状态电动机负荷系数" class="form-control" value="{{device[7]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">航行状态同时使用系数</span>
-                        <input type="text" class="form-control" value="{{device[8]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_航行状态同时使用系数" class="form-control" value="{{device[8]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">航行状态负荷类别</span>
-                        <input type="text" class="form-control" value="{{device[9]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_航行状态负荷类别" class="form-control" value="{{device[9]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">进出港状态机械负荷系数</span>
-                        <input type="text" class="form-control" value="{{device[10]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_进出港状态机械负荷系数" class="form-control" value="{{device[10]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">进出港状态电动机负荷系数</span>
-                        <input type="text" class="form-control" value="{{device[11]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_进出港状态电动机负荷系数" class="form-control" value="{{device[11]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">进出港状态同时使用系数</span>
-                        <input type="text" class="form-control" value="{{device[12]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_进出港状态同时使用系数" class="form-control" value="{{device[12]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">进出港状态负荷类别</span>
-                        <input type="text" class="form-control" value="{{device[13]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_进出港状态负荷类别" class="form-control" value="{{device[13]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">作业状态机械负荷系数</span>
-                        <input type="text" class="form-control" value="{{device[14]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_作业状态机械负荷系数" class="form-control" value="{{device[14]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">作业状态电动机负荷系数</span>
-                        <input type="text" class="form-control" value="{{device[15]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_作业状态电动机负荷系数" class="form-control" value="{{device[15]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">作业状态同时使用系数</span>
-                        <input type="text" class="form-control" value="{{device[16]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_作业状态同时使用系数" class="form-control" value="{{device[16]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">作业状态负荷类别</span>
-                        <input type="text" class="form-control" value="{{device[17]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_作业状态负荷类别" class="form-control" value="{{device[17]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">停泊状态机械负荷系数</span>
-                        <input type="text" class="form-control" value="{{device[18]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_停泊状态机械负荷系数" class="form-control" value="{{device[18]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">停泊状态电动机负荷系数</span>
-                        <input type="text" class="form-control" value="{{device[19]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_停泊状态电动机负荷系数" class="form-control" value="{{device[19]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">停泊状态同时使用系数</span>
-                        <input type="text" class="form-control" value="{{device[20]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_停泊状态同时使用系数" class="form-control" value="{{device[20]}}">
                     </div>
                     <br>
                     <div class="input-group">
                         <span class="input-group-addon">停泊状态负荷类别</span>
-                        <input type="text" class="form-control" value="{{device[21]}}">
+                        <input type="text" id="{{device[0]}}_{{ loop.index0 }}_停泊状态负荷类别" class="form-control" value="{{device[21]}}">
                     </div>
                     <br>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-success device_button add_cal" data-dismiss="modal" id="{{device[0]}}_cal">加入计算</button>
-                  <button type="button" class="btn btn-primary">保存设备</button>
+                  <button type="button" class="btn btn-success device-add-cal-button add_cal" data-dismiss="modal" id="{{device[0]}}_{{ loop.index0 }}_cal">加入计算</button>
+                  <button type="button" class="btn btn-primary device-save-button" data-dismiss="modal" id="{{device[0]}}_{{ loop.index0 }}_save">保存设备</button>
+                  <button type="button" class="btn btn-danger device-delete-button" data-dismiss="modal" id="{{device[0]}}_{{ loop.index0 }}_delete">删除设备</button>
                 </div>
               </div>
             </div>

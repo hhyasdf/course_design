@@ -97,10 +97,26 @@ work_condition4.addEventListener("click", function(){
 })
 
 
-var all_device = document.getElementsByClassName("device_button");
+var all_add_cal_device = document.getElementsByClassName("device-add-cal-button");
+var all_save_device = document.getElementsByClassName("device-save-button");
+var all_delete_device = document.getElementsByClassName("device-delete-button");
 
-for (var i=0; i<all_device.length; i++) {
-    all_device[i].addEventListener("click", function(e){
+
+function sendPost(url, data) {      // data为kv对象
+    sender = new XMLHttpRequest();
+    sender.open('post', url);
+    sender.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    sender.send(data);
+    // if (sender.readyState == 4 || sender.status != 200) {
+    //     console.err("send post error");
+    // }
+    // alert(sender.responseText);
+}
+
+
+//加入计算按钮
+for (var i=0; i<all_add_cal_device.length; i++) {
+    all_add_cal_device[i].addEventListener("click", function(e){
         var target = e.target;
         device_cal_button = document.getElementById(target.id + "_button");
         if(target.className.indexOf("add_cal") > 0){
@@ -108,7 +124,7 @@ for (var i=0; i<all_device.length; i++) {
             target.classList.remove("add_cal");
             target.classList.add("rm_cal");
             target.classList.remove("btn-success");
-            target.classList.add("btn-danger");
+            target.classList.add("btn-warning");
             target.innerHTML = "取消选中";
             device_cal_button.classList.remove("btn-default");
             device_cal_button.classList.add("btn-success");
@@ -122,7 +138,7 @@ for (var i=0; i<all_device.length; i++) {
             }
             target.classList.remove("rm_cal");
             target.classList.add("add_cal");
-            target.classList.remove("btn-danger");
+            target.classList.remove("btn-warning");
             target.classList.add("btn-success");
             target.innerHTML = "加入计算";
             device_cal_button.classList.remove("btn-success");
@@ -130,3 +146,115 @@ for (var i=0; i<all_device.length; i++) {
         }
     })
 }
+
+
+function find(str,cha,num){
+    var counter = 0;
+    for(var i = 0; i < str.length ; i++){
+        if(str[i] == cha) {
+            counter ++;
+        }
+        if(counter == num) {
+            return i;
+        }
+    }
+}
+
+
+//保存设备按钮
+for (var i=0; i<all_save_device.length; i++) {
+    all_save_device[i].addEventListener("click", function(e){
+        var target = e.target;
+        po = find(target.id, '_', 2);
+        var target_name = target.id.slice(0, po);
+        device_name = document.getElementById(target_name + "_用电设备名称").value;
+        document.getElementById(target_name + "_cal_button").innerHTML = device_name;
+        
+        param1 = document.getElementById(target_name + "_数量").value;
+        if(param1 == '' || param1 == null) param1 = 0;
+        param2 = document.getElementById(target_name + "_最大机械轴功率").value;
+        if(param2 == '' || param2 == null) param2 = 0;
+        param3 = document.getElementById(target_name + "_电动机额定功率").value;
+        if(param3 == '' || param3 == null) param3 = 0;
+        param4 = document.getElementById(target_name + "_电动机额定效率").value;
+        if(param4 == '' || param4 == null) param4 = 0;
+        param5 = document.getElementById(target_name + "_电动机利用系数").value;
+        if(param5 == '' || param5 == null) param5 = 0;
+        param6 = document.getElementById(target_name + "_航行状态机械负荷系数").value;
+        if(param6 == '' || param6 == null) param6 = 0;
+        param7 = document.getElementById(target_name + "_航行状态电动机负荷系数").value;
+        if(param7 == '' || param7 == null) param7 = 0;
+        param8 = document.getElementById(target_name + "_航行状态同时使用系数").value;
+        if(param8 == '' || param8 == null) param8 = 0;
+        param9 = document.getElementById(target_name + "_航行状态负荷类别").value;
+        if(param9 == '' || param9 == null) param9 = 'NULL';
+        param10 = document.getElementById(target_name + "_进出港状态机械负荷系数").value;
+        if(param10 == '' || param10 == null) param10 = 0;
+        param11 = document.getElementById(target_name + "_进出港状态电动机负荷系数").value;
+        if(param11 == '' || param11 == null) param11 = 0;
+        param12 = document.getElementById(target_name + "_进出港状态同时使用系数").value;
+        if(param12 == '' || param12 == null) param12 = 0;
+        param13 = document.getElementById(target_name + "_进出港状态负荷类别").value;
+        if(param13 == '' || param13 == null) param13 = 'NULL';
+        param14 = document.getElementById(target_name + "_作业状态机械负荷系数").value;
+        if(param14 == '' || param14 == null) param14 = 0;
+        param15 = document.getElementById(target_name + "_作业状态电动机负荷系数").value;
+        if(param15 == '' || param15 == null) param15 = 0;
+        param16 = document.getElementById(target_name + "_作业状态同时使用系数").value;
+        if(param16 == '' || param16 == null) param16 = 0;
+        param17 = document.getElementById(target_name + "_作业状态负荷类别").value;
+        if(param17 == '' || param17 == null) param17 = 'NULL';
+        param18 = document.getElementById(target_name + "_停泊状态机械负荷系数").value;
+        if(param18 == '' || param18 == null) param18 = 0;
+        param19 = document.getElementById(target_name + "_停泊状态电动机负荷系数").value;
+        if(param19 == '' || param19 == null) param19 = 0;
+        param20 = document.getElementById(target_name + "_停泊状态同时使用系数").value;
+        if(param20 == '' || param20 == null) param20 = 0;
+        param21 = document.getElementById(target_name + "_停泊状态负荷类别").value;
+        if(param21 == '' || param21 == null) param21 = 'NULL';
+
+
+
+        sendPost("/change_db", "action=save&device_name=" + device_name + 
+                                 "&param1=" + param1 +
+                                 "&param2=" + param2 +
+                                 "&param3=" + param3 +
+                                 "&param4=" + param4 +
+                                 "&param5=" + param5 +
+                                 "&param6=" + param6 +
+                                 "&param7=" + param7 +
+                                 "&param8=" + param8 +
+                                 "&param9=" + param9 +
+                                 "&param10=" + param10 +
+                                 "&param11=" + param11 +
+                                 "&param12=" + param12 +
+                                 "&param13=" + param13 +
+                                 "&param14=" + param14 +
+                                 "&param15=" + param15 +
+                                 "&param16=" + param16 +
+                                 "&param17=" + param17 +
+                                 "&param18=" + param18 +
+                                 "&param19=" + param19 +
+                                 "&param20=" + param20 +
+                                 "&param21=" + param21
+        )
+    })
+}
+
+//删除设备按钮
+device_list = document.getElementById("device_list");
+
+for (var i=0; i<all_delete_device.length; i++) {
+    all_delete_device[i].addEventListener("click", function(e){
+        var target = e.target;
+        // console.log(target.id);
+        device_cal_button = document.getElementById(target.id + "_button");
+        device_list.removeChild(device_cal_button);
+
+        po = target.id.indexOf('_');
+        // alert(target.id.slice(0, po));
+        sendPost("/change_db", "action=delete&device_name=" + target.id.slice(0, po));
+    })
+}
+
+// sendPost("/main.html", "Username=guest&Password=asdfasdf");
