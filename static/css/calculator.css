@@ -36,3 +36,5 @@ body > .container {
 code {
   font-size: 80%;
 }
+
+::-webkit-scrollbar{width:0px}

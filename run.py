@@ -185,13 +185,16 @@ def results():
 def change_db():
     cursor = db.cursor()
     if(request.form["action"] == "delete"):
-        sql = "delete from %s where 用电设备名称 = '%s'" % (current_user.username, request.form["device_name"])
+        sql = "delete ignore from %s where 用电设备名称 = '%s'" % (current_user.username, request.form["device_name"])
         cursor.execute(sql)
         db.commit()
         cursor.close()
     elif(request.form["action"] == "save"):
         # print(request.form)
-        sql = '''replace into %s (
+        # print(request.form["old_device_name"])
+        cursor.execute("delete ignore from %s where 用电设备名称 = '%s'" % (current_user.username, request.form["old_device_name"]))
+
+        sql = '''insert into %s (
             用电设备名称,
             数量, 
             最大机械轴功率,

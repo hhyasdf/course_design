@@ -29,6 +29,12 @@ if __name__ == '__main__':
         # 作业状态所需有功功率 float(20,3) DEFAULT NULL,
         # 停泊状态所需有功功率 float(20,3) DEFAULT NULL,
 
+    create_users_table = '''create table if not exists users(
+        username varchar(40) not null,
+        password varchar(100) not null,
+        unique (username)
+    )'''
+
     create_table_sql = '''create table if not exists %s (
         用电设备名称 varchar(40) NOT NULL,
         数量 int UNSIGNED NOT NULL,
@@ -60,7 +66,8 @@ if __name__ == '__main__':
         UNIQUE (用电设备名称)
     ) character set = utf8;''' % (username)
 
-    control.execute(create_table_sql);
+    control.execute(create_users_table)
+    control.execute(create_table_sql)
 
 
             # 电动机额定所需功率,
