@@ -278,7 +278,7 @@ def send():
 
 if __name__ == '__main__':
     app.register_blueprint(auth, url_prefix='/auth')
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', threaded = True)
 
 
 
