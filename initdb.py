@@ -6,6 +6,7 @@ import xlrd
 
 if __name__ == '__main__':
     
+    username = input("username: ")
     db = pymysql.connect(host = 'localhost', 
                     port = 3306, 
                     db = 'course_design', 
@@ -28,7 +29,7 @@ if __name__ == '__main__':
         # 作业状态所需有功功率 float(20,3) DEFAULT NULL,
         # 停泊状态所需有功功率 float(20,3) DEFAULT NULL,
 
-    create_table_sql = '''create table if not exists device (
+    create_table_sql = '''create table if not exists %s (
         用电设备名称 varchar(40) NOT NULL,
         数量 int UNSIGNED NOT NULL,
         最大机械轴功率 float(20,3) NOT NULL,
@@ -57,7 +58,7 @@ if __name__ == '__main__':
 
         停泊状态负荷类别 text NOT NULL,
         UNIQUE (用电设备名称)
-    ) character set = utf8;'''
+    ) character set = utf8;''' % (username)
 
     control.execute(create_table_sql);
 
@@ -74,7 +75,9 @@ if __name__ == '__main__':
     for i in range(nrows):
         if(i != 0):
             # print(data_sheet.row_values(i))
-            sql = '''insert into device(
+            device_info = data_sheet.row_values(i)
+            device_info.insert(0, username)
+            sql = '''insert into %s(
             用电设备名称,
             数量, 
             最大机械轴功率,
@@ -102,7 +105,7 @@ if __name__ == '__main__':
             停泊状态同时使用系数,
 
             停泊状态负荷类别) 
-            values("%s",%d,%f,%f,%f,%f,%f,%f,%f,"%s",%f,%f,%f,"%s",%f,%f,%f,"%s",%f,%f,%f,"%s");''' % tuple(data_sheet.row_values(i))
+            values("%s",%d,%f,%f,%f,%f,%f,%f,%f,"%s",%f,%f,%f,"%s",%f,%f,%f,"%s",%f,%f,%f,"%s");''' % tuple(device_info)
 
             control.execute(sql)
 

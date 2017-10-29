@@ -10,7 +10,7 @@ from datetime import timedelta
 import pymysql
 
 from flask_login import (LoginManager, login_required, login_user,
-                             logout_user, UserMixin, fresh_login_required)
+                             logout_user, UserMixin, fresh_login_required, current_user)
 
 db = pymysql.connect(host = 'localhost', 
                     port = 3306, 
@@ -20,6 +20,7 @@ db = pymysql.connect(host = 'localhost',
                     charset="utf8"
                     )
 
+usr_list = []
 
 class User(UserMixin):
 
@@ -27,7 +28,8 @@ class User(UserMixin):
         UserMixin.__init__(self)
         self.username = username
         self.password = password
-        self.work_condition = 1;
+        self.work_condition = 1
+        self.id = hash(username)
 
     def check_password(self):
         cursor = db.cursor()
@@ -56,7 +58,7 @@ class User(UserMixin):
         return False
  
     def get_id(self):
-        return "1"
+        return self.id
 
 
 app = Flask(__name__)
@@ -76,8 +78,11 @@ login_manager.refresh_view = "auth.login"
 
 @login_manager.user_loader
 def load_user(user_id):
-    user = User()
-    return user
+    # print(user_id)
+    for usr_item in usr_list:
+        if(usr_item.id == user_id):
+            return usr_item
+    return None
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -87,7 +92,14 @@ def login():
 
 
 @app.route('/')
+@login_required
+# @fresh_login_required
 def index(name=None):
+    cursor = db.cursor()
+    cursor.execute("select * from %s;" % (current_user.username))
+    device_list = cursor.fetchall()
+    # print(device_list)
+    cursor.close()
     # print("asdfasdfa")
     # if(request.method == "POST"):
     #     print("get a post")
@@ -96,25 +108,31 @@ def index(name=None):
     #     return "hello"
     # if(request.method == "GET"):
     #     print("get a GET")
-    print("index")
-    return app.send_static_file('login.html')
+    # print("index")
+    # return app.send_static_file('login.html')
+    # print(current_user.__dict__)
+    return render_template('main.html', device_list = device_list, username = current_user.username)
 
 
 @app.route('/main.html', methods=['POST'])
-def login():
+def login_main():
     user = User(request.form["Username"], request.form["Password"])
-    login_user(user)
     # print("login")
     # print(request.form["Username"])
     # print(request.form["Password"])
     if(user.check_password()):
+        login_user(user)
+        for item in usr_list:
+            if item.id == current_user.id :
+                usr_list.remove(item)
+        usr_list.append(user)
 
         cursor = db.cursor()
-        cursor.execute("select * from device;")
+        cursor.execute("select * from %s;" % user.username)
         device_list = cursor.fetchall()
         cursor.close()
         # print(device_list)
-        return render_template('main.html', device_list = device_list)
+        return render_template('main.html', device_list = device_list, username = request.form["Username"]  )
     else:
         return "username is not exist or wrong password"
 
@@ -122,6 +140,10 @@ def login():
 @auth.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
+    for item in usr_list:
+        if item.id == current_user.id :
+            usr_list.remove(item)
+
     logout_user()
     return "logout page"
 
@@ -142,11 +164,11 @@ def logout():
 @fresh_login_required
 def mainpage_d():
     cursor = db.cursor()
-    cursor.execute("select * from device;")
+    cursor.execute("select * from %s;" % (current_user.username))
     device_list = cursor.fetchall()
     # print(device_list)
     cursor.close()
-    return render_template('main.html', device_list = device_list)
+    return render_template('main.html', device_list = device_list, username = current_user.username)
 
 
 @app.route('/static/results.html', methods = ['POST'])
@@ -163,13 +185,13 @@ def results():
 def change_db():
     cursor = db.cursor()
     if(request.form["action"] == "delete"):
-        sql = "delete from device where 用电设备名称 = '%s'" % (request.form["device_name"])
+        sql = "delete from %s where 用电设备名称 = '%s'" % (current_user.username, request.form["device_name"])
         cursor.execute(sql)
         db.commit()
         cursor.close()
     elif(request.form["action"] == "save"):
         # print(request.form)
-        sql = '''replace into device (
+        sql = '''replace into %s (
             用电设备名称,
             数量, 
             最大机械轴功率,
@@ -200,6 +222,7 @@ def change_db():
 
             values("%s",%d,%f,%f,%f,%f,%f,%f,%f,"%s",%f,
             %f,%f,"%s",%f,%f,%f,"%s",%f,%f,%f,"%s");''' % (
+                current_user.username,
                 request.form["device_name"],
                 int(request.form["param1"]),
                 float(request.form["param2"]),

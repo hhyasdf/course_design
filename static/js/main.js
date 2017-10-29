@@ -1,6 +1,7 @@
 var engine_num = 1;
 var work_condition = 1; // 记录工况的全局变量
 var device_select = []; // 记录选择的设备
+var username = document.getElementById("username").innerHTML
 
 document.getElementById("add_engine").addEventListener("click", function(){
     engine_num = engine_num + 1;
@@ -258,3 +259,7 @@ for (var i=0; i<all_delete_device.length; i++) {
 }
 
 // sendPost("/main.html", "Username=guest&Password=asdfasdf");
+
+document.getElementById("create_a_device").addEventListener("click", function(){
+
+})
