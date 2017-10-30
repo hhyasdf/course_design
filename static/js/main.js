@@ -4,6 +4,7 @@ var device_select = []; // 记录选择的设备
 var username = document.getElementById("username").innerHTML
 var created_new = false
 var created_account = 0
+var device_saved = device_recorder.slice()
 
 document.getElementById("add_engine").addEventListener("click", function(){
     engine_num = engine_num + 1;
@@ -188,6 +189,25 @@ for (var i=0; i<all_save_device.length; i++) {
         var target_name = target.id.slice(0, po);
         var device_name = document.getElementById(target_name + "_用电设备名称").value;
         var old_device_name = document.getElementById(target_name + "_cal_button_content").innerHTML;
+        
+        if(old_device_name != device_name){
+            for (var item in device_recorder) {
+                // console.log(item);
+                if(device_recorder[item] == device_name){
+                    alert("不能保存与已有设备相同的设备名称！！！保存失败");
+                    return 0;
+                }
+            }
+            for(var i in device_recorder){
+                if(device_recorder[i] == old_device_name){
+                    device_recorder.splice(i, 1);
+                    break
+                }
+            }
+            device_recorder.push(device_name);
+        }
+        
+        
         document.getElementById(target_name + "_cal_button_content").innerHTML = device_name;
 
         add_cal_button = document.getElementById(target_name + "_cal");
@@ -293,6 +313,14 @@ for (var i=0; i<all_delete_device.length; i++) {
               device_select.splice(i, 1);
             }
         }
+
+        for (var i in device_recorder){
+            if(device_recorder[i] == device_name){
+                device_recorder.splice(i, 1);
+                break;
+            }
+        }
+
         device_list.removeChild(device_cal_button);
     })
 }
@@ -309,8 +337,8 @@ function insertChar(str, cha, t_cha, num){
 
 
 document.getElementById("create_a_device").addEventListener("click", function(){
-    created_account ++;
     if(created_new) return null; 
+    created_account ++;
     created_new = true;
     var old_button = document.getElementById("created_new_delete_button");
     var old_modal= document.getElementById("created_new_modal");
@@ -433,8 +461,30 @@ document.getElementById("create_a_device").addEventListener("click", function(){
         var target = e.target;
         po = find(target.id, '_', 2);
         var target_name = target.id.slice(0, po);
+
+        var start_n = 0;
+        for (var i in target_name){
+            if(target_name[i] == 'w'){
+                start_n = i
+                break;
+            }
+        }
+        var temp = target_name.substring(start_n, target_name.length);
+        var my_create_count = parseInt(temp.slice(1, temp.length));
+
         var device_name = document.getElementById(target_name + "_用电设备名称").value;
         var old_device_name = document.getElementById(target_name + "_cal_button_content").innerHTML;
+        
+        if((created_new == true && my_create_count == created_account) || old_device_name != device_name){
+            for (var item in device_recorder) {
+                // console.log(item);
+                if(device_recorder[item] == device_name){
+                    alert("不能保存与已有设备相同的设备名称！！！保存失败");
+                    return 0;
+                }
+            }
+        }
+        
         document.getElementById(target_name + "_cal_button_content").innerHTML = device_name;
 
         add_cal_button = document.getElementById(target_name + "_cal");
@@ -448,9 +498,26 @@ document.getElementById("create_a_device").addEventListener("click", function(){
             }
             device_select.push(device_name);
         }
-        created_new = false;
 
-        
+        if(created_account == my_create_count && created_new == true){
+            device_recorder.push(device_name);
+        }
+
+        if(my_create_count == created_account) {
+            // alert(my_create_count);
+            created_new = false;
+        }
+
+        if(old_device_name != device_name) {
+            for(var i in device_recorder) {
+                if(device_recorder[i] == old_device_name){
+                    device_recorder.splice(i, 1);
+                    break;
+                }
+            }
+            device_recorder.push(device_name);
+        }
+
         var param1 = document.getElementById(target_name + "_数量").value;
         if(param1 == '' || param1 == null) param1 = 0;
         var param2 = document.getElementById(target_name + "_最大机械轴功率").value;
@@ -520,6 +587,8 @@ document.getElementById("create_a_device").addEventListener("click", function(){
                                  "&param20=" + param20 +
                                  "&param21=" + param21
         )
+
+        add_cal_button.disabled = "";
     })
 
     created_all_delete.addEventListener("click", function(e){
@@ -528,15 +597,41 @@ document.getElementById("create_a_device").addEventListener("click", function(){
         var device_cal_button = document.getElementById(target.id + "_button");
 
         var po = find(target.id, '_', 2);
+        
+        var start_n = 0;
+        for (var i in target.id){
+            if(target.id[i] == 'w'){
+                start_n = i
+            }
+        }
+        var temp = target.id.slice(start_n, po);
+        var my_create_count = parseInt(temp.slice(1, temp.length));
+
         var device_name = document.getElementById(target.id.slice(0, po) + "_cal_button_content").innerHTML;
-        sendPost("/change_db", "action=delete&device_name=" + device_name);
+        
+        if(!(created_new == true && my_create_count == created_account)){
+            sendPost("/change_db", "action=delete&device_name=" + device_name);
+        }
 
         for(var i=0; i<device_select.length; i++) {
             if(device_select[i] == device_name) {
               device_select.splice(i, 1);
             }
         }
-        created_new = false;
+
+        if(!(created_new == true && my_create_count == created_account)) {
+            for (var i in device_recorder){
+                if(device_recorder[i] == device_name){
+                    device_recorder.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+        if(my_create_count == created_account){
+            created_new = false;
+        }
+        
         device_list.removeChild(device_cal_button);
     })
 })

@@ -145,8 +145,14 @@
         </div>
         
         <div id="device_list" class="row">
-        
+        <script>
+            var device_recorder = [];
+        </script>
         {% for device in device_list %}
+
+        <script>
+            device_recorder.push('{{ device[0] }}');
+        </script>
 
           <span id="{{device[0]}}_{{ loop.index0 }}_delete_button">
             <button style="margin-top: 15px;" type="button" class="btn btn-default btn-lg" id="{{device[0]}}_{{ loop.index0 }}_cal_button" data-toggle="modal" data-target="#{{device[0]}}_modal_{{ loop.index0 }}">
@@ -308,115 +314,115 @@
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">数量</span>
-                            <input type="text" id="created_new_数量" class="form-control" value="0">
+                            <input type="text" id="created_new_数量" class="form-control" placeholder="默认为0">
                             <span class="input-group-addon">台</span>
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">最大机械轴功率</span>
-                            <input type="text" id="created_new_最大机械轴功率" class="form-control" value="0">
+                            <input type="text" id="created_new_最大机械轴功率" class="form-control" placeholder="默认为0">
                             <span class="input-group-addon">kW</span>
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">电动机额定功率</span>
-                            <input type="text" id="created_new_电动机额定功率" class="form-control" value="0">
+                            <input type="text" id="created_new_电动机额定功率" class="form-control" placeholder="默认为0">
                             <span class="input-group-addon">kW</span>
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">电动机额定效率</span>
-                            <input type="text" id="created_new_电动机额定效率" class="form-control" value="0">
+                            <input type="text" id="created_new_电动机额定效率" class="form-control" placeholder="默认为1">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">电动机利用系数</span>
-                            <input type="text" id="created_new_电动机利用系数" class="form-control" value="0">
+                            <input type="text" id="created_new_电动机利用系数" class="form-control" placeholder="默认为1">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">航行状态机械负荷系数</span>
-                            <input type="text" id="created_new_航行状态机械负荷系数" class="form-control" value="0">
+                            <input type="text" id="created_new_航行状态机械负荷系数" class="form-control" placeholder="默认为1">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">航行状态电动机负荷系数</span>
-                            <input type="text" id="created_new_航行状态电动机负荷系数" class="form-control" value="0">
+                            <input type="text" id="created_new_航行状态电动机负荷系数" class="form-control" placeholder="默认为1">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">航行状态同时使用系数</span>
-                            <input type="text" id="created_new_航行状态同时使用系数" class="form-control" value="0">
+                            <input type="text" id="created_new_航行状态同时使用系数" class="form-control" placeholder="默认为1">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">航行状态负荷类别</span>
-                            <input type="text" id="created_new_航行状态负荷类别" class="form-control" value="NULL">
+                            <input type="text" id="created_new_航行状态负荷类别" class="form-control" placeholder="默认为'NULL'">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">进出港状态机械负荷系数</span>
-                            <input type="text" id="created_new_进出港状态机械负荷系数" class="form-control" value="0">
+                            <input type="text" id="created_new_进出港状态机械负荷系数" class="form-control" placeholder="默认为1">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">进出港状态电动机负荷系数</span>
-                            <input type="text" id="created_new_进出港状态电动机负荷系数" class="form-control" value="0">
+                            <input type="text" id="created_new_进出港状态电动机负荷系数" class="form-control" placeholder="默认为1">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">进出港状态同时使用系数</span>
-                            <input type="text" id="created_new_进出港状态同时使用系数" class="form-control" value="0">
+                            <input type="text" id="created_new_进出港状态同时使用系数" class="form-control" placeholder="默认为1">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">进出港状态负荷类别</span>
-                            <input type="text" id="created_new_进出港状态负荷类别" class="form-control" value="NULL">
+                            <input type="text" id="created_new_进出港状态负荷类别" class="form-control" placeholder="默认为'NULL'">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">作业状态机械负荷系数</span>
-                            <input type="text" id="created_new_作业状态机械负荷系数" class="form-control" value="0">
+                            <input type="text" id="created_new_作业状态机械负荷系数" class="form-control" placeholder="默认为1">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">作业状态电动机负荷系数</span>
-                            <input type="text" id="created_new_作业状态电动机负荷系数" class="form-control" value="0">
+                            <input type="text" id="created_new_作业状态电动机负荷系数" class="form-control" placeholder="默认为1">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">作业状态同时使用系数</span>
-                            <input type="text" id="created_new_作业状态同时使用系数" class="form-control" value="0">
+                            <input type="text" id="created_new_作业状态同时使用系数" class="form-control" placeholder="默认为1">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">作业状态负荷类别</span>
-                            <input type="text" id="created_new_作业状态负荷类别" class="form-control" value="NULL">
+                            <input type="text" id="created_new_作业状态负荷类别" class="form-control" placeholder="默认为'NULL'">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">停泊状态机械负荷系数</span>
-                            <input type="text" id="created_new_停泊状态机械负荷系数" class="form-control" value="0">
+                            <input type="text" id="created_new_停泊状态机械负荷系数" class="form-control" placeholder="默认为1">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">停泊状态电动机负荷系数</span>
-                            <input type="text" id="created_new_停泊状态电动机负荷系数" class="form-control" value="0">
+                            <input type="text" id="created_new_停泊状态电动机负荷系数" class="form-control" placeholder="默认为1">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">停泊状态同时使用系数</span>
-                            <input type="text" id="created_new_停泊状态同时使用系数" class="form-control" value="0">
+                            <input type="text" id="created_new_停泊状态同时使用系数" class="form-control" placeholder="默认为1">
                         </div>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">停泊状态负荷类别</span>
-                            <input type="text" id="created_new_停泊状态负荷类别" class="form-control" value="NULL">
+                            <input type="text" id="created_new_停泊状态负荷类别" class="form-control" placeholder="默认为'NULL'">
                         </div>
                         <br>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-success add_cal" data-dismiss="modal" id="created_new_cal">加入计算</button>
+                      <button type="button" class="btn btn-success add_cal" data-dismiss="modal" id="created_new_cal"  disabled="disabled">加入计算</button>
                       <button type="button" class="btn btn-primary" data-dismiss="modal" id="created_new_save">保存设备</button>
                       <button type="button" class="btn btn-danger" data-dismiss="modal" id="created_new_delete">删除设备</button>
                     </div>
