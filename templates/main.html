@@ -75,12 +75,12 @@
             <div class="bs-example bs-example-form" role="form">
                 <div class="input-group">
                     <span class="input-group-addon">数量</span>
-                    <input type="text" class="form-control" placeholder="默认数量为1">
+                    <input type="text" class="form-control" id="engine1_num" placeholder="默认数量为3">
                 </div>
                 <br>
                 <div class="input-group">
                     <span class="input-group-addon">功率</span>
-                    <input type="text" class="form-control" placeholder="默认功率为90kW">
+                    <input type="text" class="form-control" id="engine1_power"placeholder="默认功率为90kW">
                     <span class="input-group-addon">kW</span>
                 </div>
                 <br>
@@ -120,13 +120,13 @@
             <span class = "col-sm-3" style="padding: 10px 10px 10px; margin: 0 15px;">
                 <div class="input-group">
                     <span class="input-group-addon">K0,I</span>
-                    <input type="text" class="form-control" placeholder="默认系数为0.9">
+                    <input type="text" class="form-control" id="k01" placeholder="默认系数为0.9">
                 </div>
             </span>
             <span class = "col-sm-3" style="padding: 10px 10px 10px; margin: 0 15px;">
                 <div class="input-group">
                     <span class="input-group-addon">K0,II</span>
-                    <input type="text" class="form-control" placeholder="默认系数为0.6">
+                    <input type="text" class="form-control" id="k02" placeholder="默认系数为0.6">
                 </div>
             </span>
             
@@ -429,7 +429,7 @@
         <!-- <div class="btn-primary btn-lg"><a href="#" style="color:#FFFFFF; text-decoration: blink">开始计算</a></div> -->
         <div>
             <button type="button" class="btn btn-primary" id="create_a_device">新建设备</button>
-            <button type="button" class="btn btn-info" style="margin-left: 15px;"><strong>开始计算</strong></button>
+            <button type="button" class="btn btn-info" id="start_calculator" style="margin-left: 15px;"><strong>开始计算</strong></button>
         </div>
 
       </div>

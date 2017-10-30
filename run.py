@@ -8,6 +8,7 @@ from flask import request
 from flask import send_file
 from datetime import timedelta
 import pymysql
+import xlwt
 
 from flask_login import (LoginManager, login_required, login_user,
                              logout_user, UserMixin, fresh_login_required, current_user)
@@ -171,12 +172,181 @@ def mainpage_d():
     return render_template('main.html', device_list = device_list, username = current_user.username)
 
 
-@app.route('/static/results.html', methods = ['POST'])
+@app.route('/results.html', methods = ['POST'])
 @login_required
 @fresh_login_required
 def results():
 
-    return render_template('results.html')
+    workconditon = int(request.form["work_condition"])
+    device_list = request.form["device_select"]
+    engine_list = request.form["engine_list"]
+    k01 = float(request.form["k01"])
+    k02 = float(request.form["k02"])
+    # for item in device_list:
+    #     print(item)
+    # print(device_list)
+    # print(request.form)
+    device_name_list = []
+    device_info = []
+
+    last_po = 0
+    for po in range(len(device_list)):
+        if(device_list[po] == ','):
+            device_name_list.append(device_list[last_po: po])
+            last_po = po + 1
+
+        elif(po == (len(device_list) - 1)):
+            device_name_list.append(device_list[last_po: po + 1])
+
+    engine_info = {}
+
+    # print(engine_list)
+
+    last_po = 0
+    for po in range(len(engine_list)):
+        if(engine_list[po] == ','):
+            engine_item_info = (engine_list[last_po: po])
+            # print(engine_item_info)
+            for i in range(len(engine_item_info)):
+                if(engine_item_info[i] == '&'):
+                    value = int(engine_item_info[0: i])
+                    key = float(engine_item_info[i+1: len(engine_item_info)])
+                    # print(value)
+                    # print(key)
+                    if(key in engine_info):
+                        engine_info[key] += value
+                        break
+                    else:
+                        engine_info[key] = value
+                        break
+            last_po = po + 1
+
+        elif(po == (len(engine_list) - 1)):
+            engine_item_info = (engine_list[last_po: po + 1])
+            for i in range(len(engine_item_info)):
+                if(engine_item_info[i] == '&'):
+                    value = int(engine_item_info[0: i])
+                    key = float(engine_item_info[i+1: len(engine_item_info)])
+                    # print(value)
+                    # print(key)
+                    if(key in engine_info):
+                        engine_info[key] += value
+                        break
+                    else:
+                        # print(key)
+                        engine_info[key] = value
+                        break
+            
+    # print(engine_info)            
+
+    I_total_workcondition1 = 0.0
+    I_total_workcondition2 = 0.0
+    I_total_workcondition3 = 0.0
+    I_total_workcondition4 = 0.0
+    II_total_workcondition1 = 0.0
+    II_total_workcondition2 = 0.0
+    II_total_workcondition3 = 0.0
+    II_total_workcondition4 = 0.0
+    III_total_workcondition1 = 0.0
+    III_total_workcondition2 = 0.0
+    III_total_workcondition3 = 0.0
+    III_total_workcondition4 = 0.0
+
+    need_total = 0.0
+
+    need_engine_num_workcondition1 = 0
+    need_engine_num_workcondition2 = 0
+    need_engine_num_workcondition3 = 0
+    need_engine_num_workcondition4 = 0
+    
+    backup_engine_num_workcondition1 = 0
+    backup_engine_num_workcondition2 = 0
+    backup_engine_num_workcondition3 = 0
+    backup_engine_num_workcondition4 = 0
+
+    engine_eff_workcondition1 = 0.0
+    engine_eff_workcondition2 = 0.0
+    engine_eff_workcondition3 = 0.0
+    engine_eff_workcondition4 = 0.0
+
+    # print(device_name_list)
+    cursor = db.cursor()    
+    for name in device_name_list:
+
+        cursor.execute("select * from %s where 用电设备名称='%s'" % (current_user.username, name))
+        device_info_item = list(cursor.fetchone())
+
+        if(device_info_item[4] != 0):
+            device_info_item.insert(5, float(device_info_item[3]) / float(device_info_item[4])) # 电动机额定所需功率
+        else:
+            device_info_item.insert(5, 0)
+        device_info_item.insert(6, float(device_info_item[1]) * float(device_info_item[5])) # 所需总功率,
+        device_info_item.insert(11, float(device_info_item[6]) * float(device_info_item[10]) * float(device_info_item[9]))
+        device_info_item.insert(16, float(device_info_item[6]) * float(device_info_item[15]) * float(device_info_item[14]))
+        device_info_item.insert(21, float(device_info_item[6]) * float(device_info_item[20]) * float(device_info_item[19]))
+        device_info_item.insert(26, float(device_info_item[6]) * float(device_info_item[25]) * float(device_info_item[24]))
+
+        need_total += device_info_item[6]
+
+        if(device_info_item[12] != 'NULL'):
+
+            if(device_info_item[12] == 'Ⅰ'):
+                I_total_workcondition1 += device_info_item[11]
+            elif(device_info_item[12] == 'Ⅱ'):
+                II_total_workcondition1 += device_info_item[11]
+            elif(device_info_item[12] == 'Ⅲ'):
+                III_total_workcondition1 += device_info_item[11]
+                
+        if(device_info_item[17] != 'NULL'):
+
+            if(device_info_item[17] == 'Ⅰ'):
+                I_total_workcondition2 += device_info_item[16]
+            elif(device_info_item[17] == 'Ⅱ'):
+                II_total_workcondition2 += device_info_item[16]
+            elif(device_info_item[17] == 'Ⅲ'):
+                III_total_workcondition2 += device_info_item[16]
+
+        if(device_info_item[22] != 'NULL'):
+
+            if(device_info_item[22] == 'Ⅰ'):
+                I_total_workcondition3 += device_info_item[21]
+            elif(device_info_item[22] == 'Ⅱ'):
+                II_total_workcondition3 += device_info_item[21]
+            elif(device_info_item[22] == 'Ⅲ'):
+                III_total_workcondition3 += device_info_item[21]
+
+        if(device_info_item[27] != 'NULL'):
+
+            if(device_info_item[27] == 'Ⅰ'):
+                I_total_workcondition4 += device_info_item[26]
+            elif(device_info_item[27] == 'Ⅱ'):
+                II_total_workcondition4 += device_info_item[26]
+            elif(device_info_item[27] == 'Ⅲ'):
+                III_total_workcondition4 += device_info_item[26]
+
+        device_info.append(device_info_item)
+        # print(device_info_item)
+            
+    return render_template('results.html', 
+                            username = current_user.username, 
+                            start_workcondition = workconditon,
+                            I_total_workcondition1 = I_total_workcondition1,
+                            II_total_workcondition1 = II_total_workcondition1,
+                            III_total_workcondition1 = III_total_workcondition1,
+                            I_total_workcondition2 = I_total_workcondition2,
+                            II_total_workcondition2 = II_total_workcondition2,
+                            III_total_workcondition2 = III_total_workcondition2,
+                            I_total_workcondition3 = I_total_workcondition3,
+                            II_total_workcondition3 = II_total_workcondition3,
+                            III_total_workcondition3 = III_total_workcondition3,
+                            I_total_workcondition4 = I_total_workcondition4,
+                            II_total_workcondition4 = II_total_workcondition4,
+                            III_total_workcondition4 = III_total_workcondition4,
+                            k01 = k01,
+                            k02 = k02,
+                            need_total = need_total,
+
+                            )
 
 
 @app.route('/change_db', methods=['POST'])

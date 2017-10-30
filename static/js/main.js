@@ -9,8 +9,15 @@ document.getElementById("add_engine").addEventListener("click", function(){
     engine_num = engine_num + 1;
     var engine_row = document.getElementById("engine-row");
     var target = document.getElementById("engine1");
+    var target_num = document.getElementById("engine1_num");
+    var target_power = document.getElementById("engine1_power");
+
     var clone_node = target.cloneNode(true);
-    clone_node.id='engine' + engine_num;
+
+    target.id = "engine" + engine_num;
+    target_num.id = "engine" + engine_num + "_num";
+    target_power.id = "engine" + engine_num + "_power";
+    
     engine_row.appendChild(clone_node);
 })
 
@@ -202,39 +209,39 @@ for (var i=0; i<all_save_device.length; i++) {
         var param3 = document.getElementById(target_name + "_电动机额定功率").value;
         if(param3 == '' || param3 == null) param3 = 0;
         var param4 = document.getElementById(target_name + "_电动机额定效率").value;
-        if(param4 == '' || param4 == null) param4 = 0;
+        if(param4 == '' || param4 == null) param4 = 1;
         var param5 = document.getElementById(target_name + "_电动机利用系数").value;
-        if(param5 == '' || param5 == null) param5 = 0;
+        if(param5 == '' || param5 == null) param5 = 1;
         var param6 = document.getElementById(target_name + "_航行状态机械负荷系数").value;
-        if(param6 == '' || param6 == null) param6 = 0;
+        if(param6 == '' || param6 == null) param6 = 1;
         var param7 = document.getElementById(target_name + "_航行状态电动机负荷系数").value;
-        if(param7 == '' || param7 == null) param7 = 0;
+        if(param7 == '' || param7 == null) param7 = 1;
         var param8 = document.getElementById(target_name + "_航行状态同时使用系数").value;
-        if(param8 == '' || param8 == null) param8 = 0;
+        if(param8 == '' || param8 == null) param8 = 1;
         var param9 = document.getElementById(target_name + "_航行状态负荷类别").value;
         if(param9 == '' || param9 == null) param9 = 'NULL';
         var param10 = document.getElementById(target_name + "_进出港状态机械负荷系数").value;
-        if(param10 == '' || param10 == null) param10 = 0;
+        if(param10 == '' || param10 == null) param10 = 1;
         var param11 = document.getElementById(target_name + "_进出港状态电动机负荷系数").value;
-        if(param11 == '' || param11 == null) param11 = 0;
+        if(param11 == '' || param11 == null) param11 = 1;
         var param12 = document.getElementById(target_name + "_进出港状态同时使用系数").value;
-        if(param12 == '' || param12 == null) param12 = 0;
+        if(param12 == '' || param12 == null) param12 = 1;
         var param13 = document.getElementById(target_name + "_进出港状态负荷类别").value;
         if(param13 == '' || param13 == null) param13 = 'NULL';
         var param14 = document.getElementById(target_name + "_作业状态机械负荷系数").value;
-        if(param14 == '' || param14 == null) param14 = 0;
+        if(param14 == '' || param14 == null) param14 = 1;
         var param15 = document.getElementById(target_name + "_作业状态电动机负荷系数").value;
-        if(param15 == '' || param15 == null) param15 = 0;
+        if(param15 == '' || param15 == null) param15 = 1;
         var param16 = document.getElementById(target_name + "_作业状态同时使用系数").value;
-        if(param16 == '' || param16 == null) param16 = 0;
+        if(param16 == '' || param16 == null) param16 = 1;
         var param17 = document.getElementById(target_name + "_作业状态负荷类别").value;
         if(param17 == '' || param17 == null) param17 = 'NULL';
         var param18 = document.getElementById(target_name + "_停泊状态机械负荷系数").value;
-        if(param18 == '' || param18 == null) param18 = 0;
+        if(param18 == '' || param18 == null) param18 = 1;
         var param19 = document.getElementById(target_name + "_停泊状态电动机负荷系数").value;
-        if(param19 == '' || param19 == null) param19 = 0;
+        if(param19 == '' || param19 == null) param19 = 1;
         var param20 = document.getElementById(target_name + "_停泊状态同时使用系数").value;
-        if(param20 == '' || param20 == null) param20 = 0;
+        if(param20 == '' || param20 == null) param20 = 1;
         var param21 = document.getElementById(target_name + "_停泊状态负荷类别").value;
         if(param21 == '' || param21 == null) param21 = 'NULL';
 
@@ -451,39 +458,39 @@ document.getElementById("create_a_device").addEventListener("click", function(){
         var param3 = document.getElementById(target_name + "_电动机额定功率").value;
         if(param3 == '' || param3 == null) param3 = 0;
         var param4 = document.getElementById(target_name + "_电动机额定效率").value;
-        if(param4 == '' || param4 == null) param4 = 0;
+        if(param4 == '' || param4 == null) param4 = 1;
         var param5 = document.getElementById(target_name + "_电动机利用系数").value;
-        if(param5 == '' || param5 == null) param5 = 0;
+        if(param5 == '' || param5 == null) param5 = 1;
         var param6 = document.getElementById(target_name + "_航行状态机械负荷系数").value;
-        if(param6 == '' || param6 == null) param6 = 0;
+        if(param6 == '' || param6 == null) param6 = 1;
         var param7 = document.getElementById(target_name + "_航行状态电动机负荷系数").value;
-        if(param7 == '' || param7 == null) param7 = 0;
+        if(param7 == '' || param7 == null) param7 = 1;
         var param8 = document.getElementById(target_name + "_航行状态同时使用系数").value;
-        if(param8 == '' || param8 == null) param8 = 0;
+        if(param8 == '' || param8 == null) param8 = 1;
         var param9 = document.getElementById(target_name + "_航行状态负荷类别").value;
         if(param9 == '' || param9 == null) param9 = 'NULL';
         var param10 = document.getElementById(target_name + "_进出港状态机械负荷系数").value;
-        if(param10 == '' || param10 == null) param10 = 0;
+        if(param10 == '' || param10 == null) param10 = 1;
         var param11 = document.getElementById(target_name + "_进出港状态电动机负荷系数").value;
-        if(param11 == '' || param11 == null) param11 = 0;
+        if(param11 == '' || param11 == null) param11 = 1;
         var param12 = document.getElementById(target_name + "_进出港状态同时使用系数").value;
-        if(param12 == '' || param12 == null) param12 = 0;
+        if(param12 == '' || param12 == null) param12 = 1;
         var param13 = document.getElementById(target_name + "_进出港状态负荷类别").value;
         if(param13 == '' || param13 == null) param13 = 'NULL';
         var param14 = document.getElementById(target_name + "_作业状态机械负荷系数").value;
-        if(param14 == '' || param14 == null) param14 = 0;
+        if(param14 == '' || param14 == null) param14 = 1;
         var param15 = document.getElementById(target_name + "_作业状态电动机负荷系数").value;
-        if(param15 == '' || param15 == null) param15 = 0;
+        if(param15 == '' || param15 == null) param15 = 1;
         var param16 = document.getElementById(target_name + "_作业状态同时使用系数").value;
-        if(param16 == '' || param16 == null) param16 = 0;
+        if(param16 == '' || param16 == null) param16 = 1;
         var param17 = document.getElementById(target_name + "_作业状态负荷类别").value;
         if(param17 == '' || param17 == null) param17 = 'NULL';
         var param18 = document.getElementById(target_name + "_停泊状态机械负荷系数").value;
-        if(param18 == '' || param18 == null) param18 = 0;
+        if(param18 == '' || param18 == null) param18 = 1;
         var param19 = document.getElementById(target_name + "_停泊状态电动机负荷系数").value;
-        if(param19 == '' || param19 == null) param19 = 0;
+        if(param19 == '' || param19 == null) param19 = 1;
         var param20 = document.getElementById(target_name + "_停泊状态同时使用系数").value;
-        if(param20 == '' || param20 == null) param20 = 0;
+        if(param20 == '' || param20 == null) param20 = 1;
         var param21 = document.getElementById(target_name + "_停泊状态负荷类别").value;
         if(param21 == '' || param21 == null) param21 = 'NULL';
 
@@ -532,4 +539,57 @@ document.getElementById("create_a_device").addEventListener("click", function(){
         created_new = false;
         device_list.removeChild(device_cal_button);
     })
+})
+
+
+function post(URL, PARAMS) {
+    var temp = document.createElement("form");
+    temp.action = URL;
+    temp.method = "post";
+    temp.style.display = "none";
+    temp.enctype = "application/json";
+    // temp.target = "_blank"
+    for (var x in PARAMS) {
+      var opt = document.createElement("textarea");
+      opt.name = x;
+      opt.value = PARAMS[x];
+      temp.appendChild(opt);
+    }
+    document.body.appendChild(temp);
+    temp.submit();
+}
+
+
+document.getElementById("start_calculator").addEventListener("click", function(){
+    
+    var engine_list = [];
+    for (var i = 1; i <= engine_num; i++) {
+        var num = document.getElementById("engine" + i + "_num").value;
+        if(num == '' || num == null){
+            num = '3';
+        }
+        var power = document.getElementById("engine" + i + "_power").value;
+        if(power == '' || num == null){
+            power = '90';
+        }
+        engine_list.push(num + "&" + power);
+    }
+    
+    var k01 = document.getElementById("k01").value;
+    var k02 = document.getElementById("k02").value;
+
+    if(k01 == '' || k01 == null){
+        k01 = 0.9;
+    }
+    if(k02 == '' || k02 == null){
+        k02 = 0.6;
+    }
+
+    post("/results.html", {
+        "work_condition": work_condition,
+        "device_select": device_select,
+        "engine_list": engine_list,
+        "k01": parseFloat(k01),
+        "k02": parseFloat(k02)
+    });
 })

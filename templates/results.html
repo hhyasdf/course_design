@@ -15,6 +15,7 @@
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="/static/css/calculator.css" rel="stylesheet">
+    <link href="/static/css/results.css" rel="stylesheet">
     <link rel="icon" href="/static/img/login_logo.jpeg">
 
 
@@ -61,12 +62,215 @@
         </div>
       </nav>
 
-      <div class="container" id="results_container" style="display: none">
+      <div id="workcondition_start" style="display: none">{{ start_workcondition }}</div>
+
+      <div class="container" id="container_workcondition1" style="display: none">
         <div class="page-header">
-          <h1>Sticky footer with fixed navbar</h1>
+          <h4>计算结果：</h4>
         </div>
-        <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>body &gt; .container</code>.</p>
-        <p>Back to <a href="../sticky-footer">the default sticky footer</a> minus the navbar.</p>
+
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅰ类负荷总功率</div>
+          <div class="col-sm-5 text-center">{{ I_total_workcondition1 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅱ类负荷总功率</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition1 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅲ类负荷总功率</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition1 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅰ类负荷总功率考虑同时系数K0,Ⅰ</div>
+          <div class="col-sm-5 text-center">{{ I_total_workcondition1 * k01 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅱ类负荷总功率考虑同时系数K0,Ⅱ</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition1 * k02 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">考虑同时系数后Ⅰ、Ⅱ类总功率之和</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition1 * k02 + I_total_workcondition1 * k01 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">考虑网络损失%5所需总功率</div>
+          <div class="col-sm-5 text-center">{{ (II_total_workcondition1 * k02 + I_total_workcondition1 * k01)*1.05 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">短时全网用电设备同时工作总功率</div>
+          <div class="col-sm-5 text-center">{{ need_total }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">所需发电机台数</div>
+          <div class="col-sm-5 text-center">{{ need_engine_num }}&nbsp;(台)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">备用发电机台数</div>
+          <div class="col-sm-5 text-center">{{ backup_engine_num }}&nbsp;(台)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">发电机负荷率</div>
+          <div class="col-sm-5 text-center">{{ engine_eff }}&nbsp;(台)</div>
+        </div>
+
+        
+      </div>
+
+      <div class="container" id="container_workcondition2" style="display: none">
+        <div class="page-header">
+          <h4>计算结果：</h4>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅰ类负荷总功率</div>
+          <div class="col-sm-5 text-center">{{ I_total_workcondition2 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅱ类负荷总功率</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition2 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅲ类负荷总功率</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition2 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅰ类负荷总功率考虑同时系数K0,Ⅰ</div>
+          <div class="col-sm-5 text-center">{{ I_total_workcondition2 * k01 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅱ类负荷总功率考虑同时系数K0,Ⅱ</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition2 * k02 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">考虑同时系数后Ⅰ、Ⅱ类总功率之和</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition2 * k02 + I_total_workcondition2 * k01 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">考虑网络损失%5所需总功率</div>
+          <div class="col-sm-5 text-center">{{ (II_total_workcondition2 * k02 + I_total_workcondition2 * k01)*1.05 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">短时全网用电设备同时工作总功率</div>
+          <div class="col-sm-5 text-center">{{ need_total }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">所需发电机台数</div>
+          <div class="col-sm-5 text-center">{{ need_engine_num }}&nbsp;(台)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">备用发电机台数</div>
+          <div class="col-sm-5 text-center">{{ backup_engine_num }}&nbsp;(台)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">发电机负荷率</div>
+          <div class="col-sm-5 text-center">{{ engine_eff }}&nbsp;(台)</div>
+        </div>
+
+      </div>
+
+      <div class="container" id="container_workcondition3" style="display: none">
+        <div class="page-header">
+          <h4>计算结果：</h4>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅰ类负荷总功率</div>
+          <div class="col-sm-5 text-center">{{ I_total_workcondition3 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅱ类负荷总功率</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition3 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅲ类负荷总功率</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition3 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅰ类负荷总功率考虑同时系数K0,Ⅰ</div>
+          <div class="col-sm-5 text-center">{{ I_total_workcondition3 * k01 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅱ类负荷总功率考虑同时系数K0,Ⅱ</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition3 * k02 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">考虑同时系数后Ⅰ、Ⅱ类总功率之和</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition3 * k02 + I_total_workcondition3 * k01 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">考虑网络损失%5所需总功率</div>
+          <div class="col-sm-5 text-center">{{ (II_total_workcondition3 * k02 + I_total_workcondition3 * k01)*1.05 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">短时全网用电设备同时工作总功率</div>
+          <div class="col-sm-5 text-center">{{ need_total }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">所需发电机台数</div>
+          <div class="col-sm-5 text-center">{{ need_engine_num }}&nbsp;(台)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">备用发电机台数</div>
+          <div class="col-sm-5 text-center">{{ backup_engine_num }}&nbsp;(台)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">发电机负荷率</div>
+          <div class="col-sm-5 text-center">{{ engine_eff }}&nbsp;(台)</div>
+        </div>
+
+      </div>
+
+      <div class="container" id="container_workcondition4" style="display: none">
+        <div class="page-header">
+          <h4>计算结果：</h4>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅰ类负荷总功率</div>
+          <div class="col-sm-5 text-center">{{ I_total_workcondition4 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅱ类负荷总功率</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition4 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅲ类负荷总功率</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition4 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅰ类负荷总功率考虑同时系数K0,Ⅰ</div>
+          <div class="col-sm-5 text-center">{{ I_total_workcondition4 * k01 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">Ⅱ类负荷总功率考虑同时系数K0,Ⅱ</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition4 * k02 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">考虑同时系数后Ⅰ、Ⅱ类总功率之和</div>
+          <div class="col-sm-5 text-center">{{ II_total_workcondition4 * k02 + I_total_workcondition4 * k01 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">考虑网络损失%5所需总功率</div>
+          <div class="col-sm-5 text-center">{{ (II_total_workcondition4 * k02 + I_total_workcondition4 * k01)*1.05 }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">短时全网用电设备同时工作总功率</div>
+          <div class="col-sm-5 text-center">{{ need_total }}&nbsp;(kW)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">所需发电机台数</div>
+          <div class="col-sm-5 text-center">{{ need_engine_num }}&nbsp;(台)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">备用发电机台数</div>
+          <div class="col-sm-5 text-center">{{ backup_engine_num }}&nbsp;(台)</div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5 text-center">发电机负荷率</div>
+          <div class="col-sm-5 text-center">{{ engine_eff }}&nbsp;(台)</div>
+        </div>
+
       </div>
 
 
