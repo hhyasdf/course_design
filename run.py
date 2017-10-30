@@ -198,7 +198,7 @@ def results():
         elif(po == (len(device_list) - 1)):
             device_name_list.append(device_list[last_po: po + 1])
 
-    engine_info = {}
+    engine_info = {}  # 存储发动机的数量和功率键值对
 
     # print(engine_list)
 

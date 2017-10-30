@@ -2,9 +2,8 @@ var engine_num = 1;
 var work_condition = 1; // 记录工况的全局变量
 var device_select = []; // 记录选择的设备
 var username = document.getElementById("username").innerHTML
-var created_new = false
-var created_account = 0
-var device_saved = device_recorder.slice()
+var created_new = false;
+var created_account = 0;
 
 document.getElementById("add_engine").addEventListener("click", function(){
     engine_num = engine_num + 1;
@@ -336,10 +335,11 @@ function insertChar(str, cha, t_cha, num){
 
 
 
-document.getElementById("create_a_device").addEventListener("click", function(){
+document.getElementById("create_a_device").addEventListener("click", function(e){
     if(created_new) return null; 
     created_account ++;
     created_new = true;
+    e.target.disabled = "disabled";
     var old_button = document.getElementById("created_new_delete_button");
     var old_modal= document.getElementById("created_new_modal");
     var old_button_in = document.getElementById("created_new_cal_button");
@@ -506,6 +506,7 @@ document.getElementById("create_a_device").addEventListener("click", function(){
         if(my_create_count == created_account) {
             // alert(my_create_count);
             created_new = false;
+            document.getElementById("create_a_device").disabled = "";
         }
 
         if(old_device_name != device_name) {
@@ -630,6 +631,7 @@ document.getElementById("create_a_device").addEventListener("click", function(){
 
         if(my_create_count == created_account){
             created_new = false;
+            document.getElementById("create_a_device").disabled = "";
         }
         
         device_list.removeChild(device_cal_button);
