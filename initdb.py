@@ -6,11 +6,14 @@ import xlrd
 
 if __name__ == '__main__':
     
-    username = input("username: ")
+    mysqlusername = input("mysql username: ")
+    mysqlpassword = input("mysql password: ")
+    dbname = input("database name: ")
+    username = input("the table you want to create (username of the user who use this table): ")
     db = pymysql.connect(host = 'localhost', 
                     port = 3306, 
-                    db = 'course_design', 
-                    user = 'root', passwd = 'hhjcyhhy',
+                    db = dbname, 
+                    user = mysqlusername, passwd = mysqlpassword,
                     use_unicode=True, 
                     charset="utf8"
                     )

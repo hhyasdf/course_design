@@ -5,7 +5,7 @@ import pymysql
 
 if __name__ == '__main__':
     
-    username = input("username: ")
+    username = input("username to create: ")
     password = input("password: ")
     db = pymysql.connect(host = 'localhost', 
                     port = 3306, 

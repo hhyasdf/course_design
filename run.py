@@ -15,10 +15,14 @@ import os
 from flask_login import (LoginManager, login_required, login_user,
                              logout_user, UserMixin, fresh_login_required, current_user)
 
+mysqlusername = input("mysql username: ")                                                                                                      
+mysqlpassword = input("mysql password: ")
+dbname = input("database name: ")
+
 db = pymysql.connect(host = 'localhost', 
                     port = 3306, 
-                    db = 'course_design', 
-                    user = 'root', passwd = 'hhjcyhhy',
+                    db = dbname, 
+                    user = mysqlusername, passwd = mysqlpassword,
                     use_unicode=True, 
                     charset="utf8"
                     )
