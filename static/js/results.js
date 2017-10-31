@@ -71,3 +71,31 @@ work_condition4.addEventListener("click", function(){
     work_condition4_choose.style.display = "";
     work_condition4_fram.style.display = "";
 })
+
+
+function post(URL, PARAMS) {
+    var temp = document.createElement("form");
+    temp.action = URL;
+    temp.method = "post";
+    temp.style.display = "none";
+    temp.enctype = "application/json";
+    // temp.target = "_blank"
+    for (var x in PARAMS) {
+      var opt = document.createElement("textarea");
+      opt.name = x;
+      opt.value = PARAMS[x];
+      temp.appendChild(opt);
+    }
+    document.body.appendChild(temp);
+    temp.submit();
+}
+
+
+document.getElementById("print_all_results").addEventListener("click", function(){
+    post("/results.xlsx", {});
+})
+
+
+document.getElementById("logout").addEventListener("click", function(){
+    post("/logout", {});
+})

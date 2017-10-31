@@ -690,3 +690,13 @@ document.getElementById("start_calculator").addEventListener("click", function()
         "k02": parseFloat(k02)
     });
 })
+
+
+
+document.getElementById("print_all_device").addEventListener("click", function(){
+    post("/all_device.xlsx", {});
+})
+
+document.getElementById("logout").addEventListener("click", function(){
+    post("/logout", {});
+})
