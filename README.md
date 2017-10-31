@@ -2,9 +2,9 @@
 
 ### a website based on bootstrap and flask ###
 
-dependence:
+##### dependence: #####
 
-mysql
+mysql</br>
 python3 </br>
 -----flask </br>
 -----flask_login </br>
