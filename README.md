@@ -4,14 +4,13 @@
 
 dependence:
 
-python3
----flask
----flask_login
----xlwt
----pymysql
----xlrd
-
 mysql
+python3 </br>
+-----flask </br>
+-----flask_login </br>
+-----xlwt </br>
+-----pymysql </br>
+-----xlrd </br>
 
 
 
