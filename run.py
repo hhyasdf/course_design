@@ -472,6 +472,9 @@ def results():
         (((II_total_workcondition1 * k02 + I_total_workcondition1 * k01)*1.05) / 0.85), 
         all_engine_power
         )
+    
+    if(need_engine_power_workcondition1 == -1):
+        need_engine_power_workcondition1 = all_engine_power
 
     need_engine_power_workcondition2, need_engine_num_workcondition2 = find_the_best_engine(
         engine_info_list, 
@@ -479,17 +482,26 @@ def results():
         all_engine_power
         )
 
+    if(need_engine_power_workcondition2 == -1):
+        need_engine_power_workcondition2 = all_engine_power
+
     need_engine_power_workcondition3, need_engine_num_workcondition3 = find_the_best_engine(
         engine_info_list, 
         (((II_total_workcondition3 * k02 + I_total_workcondition3 * k01)*1.05) / 0.85), 
         all_engine_power
         )
+
+    if(need_engine_power_workcondition3 == -1):
+        need_engine_power_workcondition3 = all_engine_power
     
     need_engine_power_workcondition4, need_engine_num_workcondition4 = find_the_best_engine(
         engine_info_list, 
         (((II_total_workcondition4 * k02 + I_total_workcondition4 * k01)*1.05) / 0.85), 
         all_engine_power
         )
+
+    if(need_engine_power_workcondition4 == -1):
+        need_engine_power_workcondition4 = all_engine_power
 
     # 打印要算的东西
 
